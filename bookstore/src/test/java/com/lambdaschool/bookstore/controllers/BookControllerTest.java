@@ -255,8 +255,32 @@ public class BookControllerTest
     }
 
     @Test
-    public void updateFullBook()
+    public void updateFullBook() throws Exception
     {
+        String apiUrl = "/books/book/1";
+
+        Book b1 = new Book();
+        Section s1 = new Section();
+        b1.setBookid(33);
+        b1.setTitle("The Witcher");
+        b1.setIsbn("9780307474278");
+        b1.setCopy(301);
+        b1.setSection(s1);
+
+        Mockito.when(bookService.update(b1, 100))
+                .thenReturn(bookList.get(0));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String userString = mapper.writeValueAsString(b1);
+
+        RequestBuilder rb = MockMvcRequestBuilders.put(apiUrl, 100L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(userString);
+
+        mockMvc.perform(rb)
+                .andExpect(status().is2xxSuccessful())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
