@@ -37,6 +37,7 @@ import java.util.Set;
 @RestController
 public class OpenController
 {
+    RestTemplate restTemplate = new RestTemplate();
     /**
      * A method in this controller adds a new user to the application so needs access to User Services to do this.
      */
